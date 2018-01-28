@@ -27,19 +27,18 @@ function saveUser (req, res) {
     // console.log(req.body)
 
     user.name = params.name
-    user.surname = params.sername
+    user.surname = params.surname
     user.nick = params.nick
     user.email = params.email
     user.role = 'ROLE_USER'
     user.image = null
-    // user.password =s params.password SIN CIFRAR
+    // user.password = params.password // SIN CIFRAR
     bcrypt.hash(params.password, null, null, (err, hash) => {
       user.password = hash
-      // if (err) return res.status(500).send({message: 'Error al guardar el usuario'})
-      // console.log(req.body)
-      user.save((err, userStored) => { // comprobamos que el usuario se ha guardado
-        if (err) return res.status(500).send({message: 'Error al guardar el usuario'})
-
+      if (err) return res.status(500).send({message: 'Error de cifrado'})
+      console.log(req.body)
+      user.save((err, userStored) => { // modelo save mongoose guardar
+        if (err) return res.status(500).send({message: 'Error al guardar el usuario!'})
         if (userStored) {
           res.status(200).send({user: userStored})
         } else {
