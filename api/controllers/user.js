@@ -83,8 +83,33 @@ function saveUser (req, res) {
   }
 }
 
+// LOGIN DE USUARIOS
+function loginUser (req, res) {
+  var params = req.body
+
+  var email = params.email
+  var password = params.password
+
+  User.findOne({email: email}, (err, user) => {
+    if (err) return res.status(500).send({message: 'Error en la petición'})
+    if (user) {
+      bcrypt.compare(password, user.password, (err, check) => {
+        if (check) {
+          // Devolver datos de usuarios
+          return res.status(200).send({user})
+        } else {
+          return res.status(404).send({message: 'El email o la contraseña no son correctas'})
+        }
+      })
+    } else { // Cuando el usuario no exista
+      return res.status(404).send({message: 'El usuario no se ha podido identificar!'})
+    }
+  })
+}
+
 module.exports = {
   home,
   pruebas,
-  saveUser
+  saveUser,
+  loginUser
 }
