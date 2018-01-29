@@ -35,7 +35,7 @@ function saveUser (req, res) {
     user.image = null
     // user.password = params.password // SIN CIFRAR
 
-    // CONTROLAR USUARIOS DUPLICADOS -------------
+    // CONTROLAR USUARIOS DUPLICADOS ------------------------------------------
     User.find({ $or: [
                     {email: user.email.toLowerCase()},
                     {nick: user.nick.toLowerCase()}
@@ -45,7 +45,7 @@ function saveUser (req, res) {
       if (users && users.length >= 1) {
         return res.status(500).send({message: 'El usuario que intentas registrar ya existe'})
       } else {
-        // CIFRADO DE PASSWORD Y GUARDADO DE DATOS ----
+        // CIFRADO DE PASSWORD Y GUARDADO DE DATOS ----------------------------
         bcrypt.hash(params.password, null, null, (err, hash) => {
           user.password = hash
           if (err) return res.status(500).send({message: 'Error de cifrado'})
@@ -61,22 +61,6 @@ function saveUser (req, res) {
         })
       }
     })
-    /* CIFRADO DE PASSWORD Y GUARDADO DE DATOS ------
-
-    bcrypt.hash(params.password, null, null, (err, hash) => {
-      user.password = hash
-      if (err) return res.status(500).send({message: 'Error de cifrado'})
-      console.log(req.body)
-      user.save((err, userStored) => { // modelo save mongoose guardar
-        if (err) return res.status(500).send({message: 'Error al guardar el usuario!'})
-        if (userStored) {
-          res.status(200).send({user: userStored})
-        } else {
-          res.status(404).send({message: 'No se ha registrado el usuario'})
-        }
-      })
-    })
-    ----------------------- */
   } else {
     res.status(200).send({
       message: 'Envía todos los campos necesarios'
@@ -84,7 +68,7 @@ function saveUser (req, res) {
   }
 }
 
-// LOGIN DE USUARIOS
+// LOGIN DE USUARIOS ----------------------------------------------------------
 function loginUser (req, res) {
   var params = req.body
 
@@ -95,14 +79,17 @@ function loginUser (req, res) {
     if (err) return res.status(500).send({message: 'Error en la petición'})
     if (user) {
       bcrypt.compare(password, user.password, (err, check) => {
+        if (err) {
+          res.status(404).send({message: 'La sesión no es válida'})
+        }
         if (check) {
-          if (params.gettoken) {
-            // Generar y devolver token
+          if (params.gettoken) { // si viene con token -gettoken: true- devuelve el token
+            // Generar y devolver token, lo generamos con el servicio jwt.js
             return res.status(200).send({
               token: jwt.createToken(user)
             })
           } else {
-            // Devolver datos de usuarios
+            // Devolver datos de usuarios -------------
             user.password = undefined // Eliminamos la propiedad para que sea interno del backend y no la devuelva por post
             return res.status(200).send({user})
           }

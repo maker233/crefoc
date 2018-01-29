@@ -1,5 +1,5 @@
 'use strict'
-
+// DECODIFICA EL TOKEN, COMPRUEBA VALIDEZ
 var jwt = require('jwt-simple')
 var moment = require('moment')
 var secret = 'clave_secreta_creative_focus_estudio_seo'
@@ -11,9 +11,9 @@ exports.ensureAuth = function (req, res, next) {
   var token = req.headers.authorization.replace(/['"]+/g, '') // limpiamos comillas del token
 
   try { // los token suelen fallar, usamos try-catch
-    var payload = jwt.decode(token, secret)
+    var payload = jwt.decode(token, secret) // DECODIFICA
 
-    if (payload.exp <= moment().unix()) {
+    if (payload.exp <= moment().unix()) { // comprueba si la fecha expiación es anterior a momento actual
       return res.status(401).send({
         message: 'El token ha expirado'
       })
@@ -23,5 +23,7 @@ exports.ensureAuth = function (req, res, next) {
       message: 'El token no es válido'
     })
   }
-  req.user = payload
+  req.user = payload // adjuntamos el payload a la request para tener siempre dentro de los controladores el objeto del usuario logeado
+                    // en los controladores tengo acceso a req.user y tengo dentro todos los datos del usuario que esta enviando el token
+  next()
 }
