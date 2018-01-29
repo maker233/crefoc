@@ -2,6 +2,7 @@
 
 var bcrypt = require('bcrypt-nodejs') // cargamos dependencia para cifrar contraseña
 var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
+var jwt = require ('../services/jwt') // cargamos el servicio
 
 // rutas
 function home (req, res) {
@@ -95,8 +96,18 @@ function loginUser (req, res) {
     if (user) {
       bcrypt.compare(password, user.password, (err, check) => {
         if (check) {
-          // Devolver datos de usuarios
-          return res.status(200).send({user})
+
+          if(params.gettoken){
+            // Generar y devolver token
+            return res.status(200).send({
+              token: jwt.createToken(user)
+            })
+
+          }else{
+            // Devolver datos de usuarios
+            user.password = undefined // Eliminamos la propiedad para que sea interno del backend y no la devuelva por post
+            return res.status(200).send({user})
+
         } else {
           return res.status(404).send({message: 'El email o la contraseña no son correctas'})
         }
