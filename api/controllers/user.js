@@ -4,6 +4,8 @@ var bcrypt = require('bcrypt-nodejs') // cargamos dependencia para cifrar contra
 var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
 var jwt = require('../services/jwt') // cargamos el servicio
 var mongoosePaginate = require('mongoose-pagination')
+var fs = require('fs') // libreria file system de node que permine trabajar con archivos
+var path = require('path')// permite trabajar con rutas del sistema de ficheros
 
 // MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
@@ -164,6 +166,44 @@ function updateUser(req,res) {
   })
 }
 
+// SUBIR ARCHIVO IMAGEN-AVATAR DE USUARIO
+function uploadImage (req, res) {
+  var userId = req.params.id
+
+  if (userId !== req.user.sub) {
+    return res.status(500).send({message: 'No tienes permiso para actualizar los datos del usuario'})
+  }
+
+  if (req.files) {
+    var file_path = req.files.image.path
+    console.log(file_path)
+
+    var file_split = file_path.split('\\')
+    console.log(file_split)
+
+    var file_name = file_split[2]
+    console.log(file_name)
+
+    var ext_split = file_name.split('\.')
+    console.log(ext_split)
+
+    var file_ext = ext_split[1]
+    console.log(file_ext)
+
+    if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+      // Actualizar documento de usuario logeado
+
+    }else{
+      fs.unlink(filepath), (err) => {
+
+      if (err) return.status(200).send({'Extensión no válida'})
+    }}
+
+  } else {
+    return res.status(200).send({message: 'No se ha subido ninguna imagen'})
+  }
+}
+
 module.exports = {
   home,
   pruebas,
@@ -171,5 +211,6 @@ module.exports = {
   loginUser,
   getUser,
   getUsers,
-  updateUser
+  updateUser,
+  uploadImage
 }
