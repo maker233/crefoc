@@ -3,8 +3,9 @@
 var bcrypt = require('bcrypt-nodejs') // cargamos dependencia para cifrar contraseña
 var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
 var jwt = require('../services/jwt') // cargamos el servicio
+var mongoosePaginate = require('mongoose-pagination')
 
-// rutas
+// MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
   res.status(200).send({
     message: 'Hola mundo desde el servidor de node.js'
@@ -18,7 +19,7 @@ function pruebas (req, res) {
   })
 }
 
-// crear nuevos usuarios
+// REGISTRO DE USUARIOS -------------------------------------------------------
 function saveUser (req, res) {
   var params = req.body // recojer los parametros de la req (petición), todos los campos que lleguen por POST los recoge en estra variable
   var user = new User()
@@ -103,9 +104,50 @@ function loginUser (req, res) {
   })
 }
 
+// CONSEGUIR DATOS DE UN USUARIOS ---------------------------------------------
+function getUser (req, res) {
+  var userId = req.params.id
+  // Cuando queramos recoger de URL es con params
+  // Cuando queramos recoger de POST o PUT es con body
+
+  User.findById(userId, (err, user) => {
+    if (err) return res.status(500).send({message: 'Error en la petición'})
+
+    if (!user) return res.status(404).send({message: 'El usuario no existe'})
+
+    return res.status(200).send({user})
+  })
+}
+
+// DEVOLVER UN LISTADO DE USUARIOS PAGINADOS ----------------------------------
+function getUsers (req, res) {
+  var identity_user_id = req.user.sub // id del usuario logeado, tenemos req.user bindeaba en el middleware
+
+  var page = 1
+  if (req.params.page) {
+    page = req.params.page
+  }
+
+  var itemsPerPage = 5
+
+  User.find().sort('_id').paginate(page, itemsPerPage, (err, users, total) => { // sort ordena
+    if (err) return res.status(500).send({message: 'Error en la petición'})
+
+    if (!users) return res.status(404).send({message: 'No hay usuarios disponibles'})
+
+    return res.status(200).send({
+      users,
+      total,
+      pages: Math.ceil(total / itemsPerPage)
+    })
+  })
+}
+
 module.exports = {
   home,
   pruebas,
   saveUser,
-  loginUser
+  loginUser,
+  getUser,
+  getUsers
 }
