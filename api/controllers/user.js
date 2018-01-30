@@ -5,7 +5,7 @@ var User = require('../models/user') // User en mayuscula para indicar que es un
 var jwt = require('../services/jwt') // cargamos el servicio
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs') // libreria file system de node que permine trabajar con archivos
-var path = require('path')// permite trabajar con rutas del sistema de ficheros
+var path = require('path') // permite trabajar con rutas del sistema de ficheros
 
 // MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
@@ -109,7 +109,7 @@ function loginUser (req, res) {
 // CONSEGUIR DATOS DE UN USUARIOS ---------------------------------------------
 function getUser (req, res) {
   var userId = req.params.id
-  // Cuando queramos recoger de URL es con params
+  // Cuando queramos recoger de URL es con params (GET)
   // Cuando queramos recoger de POST o PUT es con body
 
   User.findById(userId, (err, user) => {
@@ -146,7 +146,7 @@ function getUsers (req, res) {
 }
 
 // ACTUALIZAR DATOS DE UN USUARIOS --------------------------------------------
-function updateUser(req,res) {
+function updateUser (req, res) {
   var userId = req.params.id
   var update = req.body
 
@@ -166,13 +166,9 @@ function updateUser(req,res) {
   })
 }
 
-// SUBIR ARCHIVO IMAGEN-AVATAR DE USUARIO
+// SUBIR ARCHIVO IMAGEN-AVATAR DE USUARIO -------------------------------------
 function uploadImage (req, res) {
   var userId = req.params.id
-
-  if (userId !== req.user.sub) {
-    return res.status(500).send({message: 'No tienes permiso para actualizar los datos del usuario'})
-  }
 
   if (req.files) {
     var file_path = req.files.image.path
@@ -190,18 +186,51 @@ function uploadImage (req, res) {
     var file_ext = ext_split[1]
     console.log(file_ext)
 
+    if (userId !== req.user.sub) {
+      return removeFilesOfUploads(res, file_path, 'No tienes permiso para actualizar los datos del usuario')
+        // ponemos return para que la ejecución no siga por encima de removeFilesOfUploads
+        // return res.status(500).send({message: 'No tienes permiso para actualizar los datos del usuario'})
+    }
+
     if (file_ext == 'png' || file_ext == 'jpg' || file_ext == 'jpeg' || file_ext == 'gif') {
+
       // Actualizar documento de usuario logeado
+      User.findByIdAndUpdate(userId, {image: file_name}, {new: true}, (err, userUpdated) => {
+        if (err) return res.status(500).send({message: 'Error en la petición'})
 
-    }else{
-      fs.unlink(filepath), (err) => {
+        if (!userUpdated) return res.status(404).send({message: 'No se ha podido actualizar el usuario'})
 
-      if (err) return.status(200).send({'Extensión no válida'})
-    }}
-
+        return res.status(200).send({user: userUpdated})
+      })
+    } else {
+      return removeFilesOfUploads(res, file_path, 'Extensión no válida')
+        // ponemos return para que la ejecución no siga por encima de removeFilesOfUploads
+    }
   } else {
     return res.status(200).send({message: 'No se ha subido ninguna imagen'})
   }
+}
+
+// FUNCIÓN AUXILIAR PARA ELIMINAR IMAGEN SUBIDA AL DAR ERROR ------------------
+function removeFilesOfUploads (res, file_path, message) {
+  fs.unlink(file_path, (err) => {
+    return res.status(200).send({message: message})
+      // Este método hace return y devuelve una respuesta pero la ejecución de uploadImage va a seguir, ponemos return por eso
+  })
+}
+
+// RECUPERAR IMAGEN AVATAR ----------------------------------------------------
+function getImageFile (req, res) {
+  var image_file = req.params.imageFile
+  var path_file = './uploads/users/' + image_file
+
+  fs.exists(path_file, (exists) => {
+    if (exists) {
+      res.sendFile(path.resolve(path_file))
+    } else {
+      res.status(200).send({message: 'No existe la imagen...'})
+    }
+  })
 }
 
 module.exports = {
@@ -212,5 +241,13 @@ module.exports = {
   getUser,
   getUsers,
   updateUser,
-  uploadImage
+  uploadImage,
+  getImageFile
 }
+
+/*
+1.Declaramos elementos(variables
+2.Ajustes correspondientes /editar formato ruta, splits, borrar parametro contraseña..
+3.Condicionales if..else,try..catch ...petición
+4.Metemos el método con los parámetros y con posible callback
+*/
