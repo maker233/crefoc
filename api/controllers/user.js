@@ -143,11 +143,33 @@ function getUsers (req, res) {
   })
 }
 
+// ACTUALIZAR DATOS DE UN USUARIOS --------------------------------------------
+function updateUser(req,res) {
+  var userId = req.params.id
+  var update = req.body
+
+  // Borrar propiedad PASSWORD
+  delete update.password
+
+  if (userId !== req.user.sub) {
+    return res.status(500).send({message: 'No tienes permiso para actualizar los datos del usuario'})
+  }
+
+  User.findByIdAndUpdate(userId, update, {new: true}, (err, userUpdated) => {
+    if (err) return res.status(500).send({message: 'Error en la petición'})
+
+    if (!userUpdated) return res.status(404).send({message: 'No se ha podido actualizar el usuario'})
+
+    return res.status(200).send({user: userUpdated})
+  })
+}
+
 module.exports = {
   home,
   pruebas,
   saveUser,
   loginUser,
   getUser,
-  getUsers
+  getUsers,
+  updateUser
 }
