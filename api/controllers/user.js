@@ -1,11 +1,12 @@
 'use strict'
 
 var bcrypt = require('bcrypt-nodejs') // cargamos dependencia para cifrar contraseña
-var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
 var jwt = require('../services/jwt') // cargamos el servicio
 var mongoosePaginate = require('mongoose-pagination')
 var fs = require('fs') // libreria file system de node que permine trabajar con archivos
 var path = require('path') // permite trabajar con rutas del sistema de ficheros
+
+var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
 
 // MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
