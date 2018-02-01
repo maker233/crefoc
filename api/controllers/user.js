@@ -119,15 +119,39 @@ function getUser (req, res) {
 
     if (!user) return res.status(404).send({message: 'El usuario no existe'})
 
-    Follow.findOne({'user': req.user.sub, 'followed': userId}).exec((err, follow) => {
-      if (err) return res.status(500).send({message: 'Error al comprobar el seguimiento'})
+    // Follow.findOne({'user': req.user.sub, 'followed': userId}).exec((err, follow) => {
+    //  if (err) return res.status(500).send({message: 'Error al comprobar el seguimiento'})
+    //  return res.status(200).send({user, follow})
+    // })
 
-      return res.status(200).send({user, follow})
+    followThisUser(req.user.sub, userId).then((value) => {
+      user.password = undefined
+      return res.status(200).send({
+        user,
+        following: value.following,
+        followed: value.followed
+      })
     })
-
-    return res.status(200).send({user})
   })
 }
+
+async function followThisUser (identity_user_id, user_id) { // hago la funcion asíncrona
+  var following = await Follow.findOne({'user': identity_user_id, 'followed': user_id}).exec((err, follow) => { // llamada síncrona
+    if (err) return handleError(err)
+    return follow
+    // Guarda en la variable follow el resultado que hace el find, esperándose a que findone devuelva un resultado
+  })
+  var followed = await Follow.findOne({'user': user_id, 'followed': identity_user_id}).exec((err, follow) => { // llamada síncrona
+    if (err) return handleError(err)
+    return follow
+  })
+  return {
+    following: following,
+    followed: followed
+  }
+  // Al utilizar el async devuelve una promesa
+}
+
 
 // DEVOLVER UN LISTADO DE USUARIOS PAGINADOS ----------------------------------
 function getUsers (req, res) {
@@ -145,12 +169,46 @@ function getUsers (req, res) {
 
     if (!users) return res.status(404).send({message: 'No hay usuarios disponibles'})
 
-    return res.status(200).send({
-      users,
-      total,
-      pages: Math.ceil(total / itemsPerPage)
+    followUserIds(identity_user_id).then((value) => {
+      return res.status(200).send({
+        users,
+        users_following: value.following,
+        users_follow_me: value.followed,
+        total,
+        pages: Math.ceil(total / itemsPerPage)
+      }) // promesa
     })
   })
+}
+
+// COMPROBAR SEGUMIENTOS - ARRAYS - C37
+async function followUserIds (user_id) { // await para esperar al return en vez de la variable
+  var following = await Follow.find({'user': user_id}).select({'_id': 0, '__v': 0, 'user': 0}).exec((err, follows) => {
+    return follows
+  })
+  // CUANDO NOS SIGUEN
+  var followed = await Follow.find({'followed': user_id}).select({'_id': 0, '__v': 0, 'followed': 0}).exec((err, follows) => {
+    return follows
+  })
+
+  // Procesar following ids
+  var following_clean = []
+
+  following.forEach((follow) => {
+    following_clean.push(follow.followed)
+  })
+
+  // Procesar followed ids
+  var followed_clean = []
+
+  followed.forEach((follow) => {
+    followed_clean.push(follow.user)
+  })
+
+  return {
+    following: following_clean,
+    followed: followed_clean
+  }
 }
 
 // ACTUALIZAR DATOS DE UN USUARIOS --------------------------------------------
