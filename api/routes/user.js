@@ -14,6 +14,7 @@ api.get('/pruebas', md_auth.ensureAuth, UserController.pruebas) // toma el segun
 api.get('/user/:id', md_auth.ensureAuth, UserController.getUser) // parametro por url es /: y si quieremos opcional /:parametro?
 api.get('/users/:page?', md_auth.ensureAuth, UserController.getUsers) // listado usuario, pasamos page como opcional con '?'
 api.get('/get-image-user/:imageFile', UserController.getImageFile) // Devolver imagen usuario
+api.get('/counters/:id?', md_auth.ensureAuth, UserController.getCounters)
 
 api.post('/register', UserController.saveUser)
 api.post('/login', UserController.loginUser)

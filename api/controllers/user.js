@@ -181,7 +181,7 @@ function getUsers (req, res) {
   })
 }
 
-// COMPROBAR SEGUMIENTOS - ARRAYS - C37
+// COMPROBAR SEGUMIENTOS - ARRAYS - C37 ---------------------------------------
 async function followUserIds (user_id) { // await para esperar al return en vez de la variable
   var following = await Follow.find({'user': user_id}).select({'_id': 0, '__v': 0, 'user': 0}).exec((err, follows) => {
     return follows
@@ -208,6 +208,36 @@ async function followUserIds (user_id) { // await para esperar al return en vez 
   return {
     following: following_clean,
     followed: followed_clean
+  }
+}
+
+// MÉTODO CONTADORES Y ESTADÍSTICAS -------------------------------------------
+
+function getCounters (req, res) {
+  var userId = req.user.sub
+  if (req.params.id) {
+    userId = req.params.id
+  }
+  getCountFollow(userId).then((value) => {
+    return res.status(200).send(value) // value sera el count que habra hecho el método
+  })
+}
+
+async function getCountFollow (user_id) { // await va a esperar a que devuelva la llamada a la base de datos
+  var following = await Follow.count({'user': user_id}).exec((err, count) => {
+    if (err) return handleError(err)
+    return count
+    // Al tener que sacar varios datos
+  })
+
+  var followed = await Follow.count({'followed':user_id}).exec((err, count) => {
+    if (err) return handleError(err)
+    return count
+  })
+
+  return {
+    following: following,
+    followed: followed
   }
 }
 
@@ -306,6 +336,7 @@ module.exports = {
   loginUser,
   getUser,
   getUsers,
+  getCounters,
   updateUser,
   uploadImage,
   getImageFile
