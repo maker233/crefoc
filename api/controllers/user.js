@@ -7,6 +7,7 @@ var fs = require('fs') // libreria file system de node que permine trabajar con 
 var path = require('path') // permite trabajar con rutas del sistema de ficheros
 
 var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
+var Follow = require('../models/follow') // Lo importamos para ver seguimientos en User
 
 // MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
@@ -117,6 +118,12 @@ function getUser (req, res) {
     if (err) return res.status(500).send({message: 'Error en la petición'})
 
     if (!user) return res.status(404).send({message: 'El usuario no existe'})
+
+    Follow.findOne({'user': req.user.sub, 'followed': userId}).exec((err, follow) => {
+      if (err) return res.status(500).send({message: 'Error al comprobar el seguimiento'})
+
+      return res.status(200).send({user, follow})
+    })
 
     return res.status(200).send({user})
   })
