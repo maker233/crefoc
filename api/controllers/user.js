@@ -8,6 +8,7 @@ var path = require('path') // permite trabajar con rutas del sistema de ficheros
 
 var User = require('../models/user') // User en mayuscula para indicar que es un MODELO
 var Follow = require('../models/follow') // Lo importamos para ver seguimientos en User
+var Publication = require('../models/publication')
 
 // MÉTODOS DE PRUEBA ----------------------------------------------------------
 function home (req, res) {
@@ -152,7 +153,6 @@ async function followThisUser (identity_user_id, user_id) { // hago la funcion a
   // Al utilizar el async devuelve una promesa
 }
 
-
 // DEVOLVER UN LISTADO DE USUARIOS PAGINADOS ----------------------------------
 function getUsers (req, res) {
   var identity_user_id = req.user.sub // id del usuario logeado, tenemos req.user bindeaba en el middleware
@@ -235,9 +235,15 @@ async function getCountFollow (user_id) { // await va a esperar a que devuelva l
     return count
   })
 
+  var publications = await Publication.count({'user': user_id}).exec((err, count) => {
+    if (err) return handleError(err)
+    return count
+  })
+
   return {
     following: following,
-    followed: followed
+    followed: followed,
+    publications: publications
   }
 }
 

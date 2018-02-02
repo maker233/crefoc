@@ -13,4 +13,5 @@ var FollowSchema = Schema({
     ref: 'User'
   }
 })
+
 module.exports = mongoose.model('Follow', FollowSchema)
