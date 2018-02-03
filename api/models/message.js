@@ -13,7 +13,8 @@ var MessageSchema = Schema({
     ref: 'User'
   },
   text: String,
-  created_at: String
+  created_at: String,
+  viewed: String
 })
 
 module.exports = mongoose.model('Message', MessageSchema)
