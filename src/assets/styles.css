@@ -34,5 +34,14 @@
 
 .navigation .navbar .form-inline {
   margin-left: auto !important;
+}
+.carousel-item {
+  object-fit: cover;
+  height: 400px;
+  position: relative;
 
+}
+.cit { //carrousel item con modificación
+  position: relative;
+  bottom: 330px;
 }
