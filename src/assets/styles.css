@@ -24,16 +24,23 @@
   // background: black !important;
   border: none;
 }
+
+.navigation .navbar a:hover{
+  color: #7fff00 !important;
+  // border: 1px solid #7fff00;
+  // border-radius: 2px;
+}
+
 .navigation .navbar *{
   color: white;
 }
 
-.dropdown-item {
-  color: black !important;
-}
-
 .navigation .navbar .form-inline {
   margin-left: auto !important;
+}
+
+.dropdown-item {
+  color: black !important;
 }
 .carousel-item {
   object-fit: cover;

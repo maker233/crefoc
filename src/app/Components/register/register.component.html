@@ -4,7 +4,7 @@
   <div class="alert alert-success" *ngIf="status == 'success'">
     Registro completado correctamente, <a [routerLink]="['/login']">Identifícate aquí</a>.
   </div>
-  <div class="alert alert-dager" *ngIf="status == 'error'">
+  <div class="alert alert-danger" *ngIf="status == 'error'">
     El registro no ha podido completarse, tu Email o Apodo ya está en uso, inténtalo de nuevo con otros datos.
   </div>
 

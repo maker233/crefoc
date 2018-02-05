@@ -10,6 +10,8 @@ import { GLOBAL } from './global';
 @Injectable()
 export class UserService{
   public url:string; // tendremos la url del backend localhost/3800
+  public identity;
+  public token;
 
   constructor(public _http: HttpClient) { //definimos la pripiedad hhtp para hacer peticiones
     this.url = GLOBAL.url;
@@ -40,4 +42,26 @@ export class UserService{
     return this._http.post(this.url+'login', params, {headers: headers})
   }
 
+  getIdentity(){
+    let identity = JSON.parse(localStorage.getItem('identity')); // convierto el string de identity a objeto JSON
+
+    if(identity != "undefined"){
+      this.identity = identity;
+    }else{
+      this.identity = null;
+    }
+      return this.identity;
+    }
+
+  getToken(){
+    let token = localStorage.getItem('token');
+
+    if(token != "undefined"){
+      this.token = token;
+    }else{
+      this.token = null;
+    }
+
+    return this.token;
+  }
 }

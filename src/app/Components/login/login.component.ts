@@ -48,10 +48,13 @@ export class LoginComponent implements OnInit{
         this.status = 'error';
       }else{
         this.status = 'success';
-        // PERSISTIR DATOS DEL USUARIO
+
+        // PERSISTIR DATOS DEL USUARIO - Usamos el LocalStorage
+        localStorage.setItem('identity',JSON.stringify(this.identity));
 
         // CONSEGUIR TOKEN
-      }      
+        this.token();
+      }
     },
     error => {
       var errorMessage = <any>error;
@@ -61,6 +64,32 @@ export class LoginComponent implements OnInit{
         this.status = 'error';
       }
     }
-  )
+  );
+  }
+
+  gettokken(){
+    this._userService.signup(this.user, 'true').subscribe(
+    response => {
+      this.token = response.token;
+
+      if(this.token.length <= 0){
+        this.status = 'error';
+      }else{
+        this.status = 'success';
+
+        // PERSISTIR TOKEN DEL USUARIO
+        localStorage.setItem('token', this.token);
+
+        // CONSEGUIR LOS CONTADORES O ESTADISTICAS DEL USUARIO
+      }
+    },
+    error => {
+      var errorMessage = <any>error;
+      // console.log(errorMessage);
+
+      if(errorMessage != null){
+        this.status = 'error';
+      }
+    },
   }
 }
