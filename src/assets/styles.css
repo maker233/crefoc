@@ -25,10 +25,18 @@
   border: none;
 }
 
-.navigation .navbar a:hover{
+a.dropdown-item.active {
+  background-color: #eee;
+}
+
+.nav-link:hover {
   color: #7fff00 !important;
   // border: 1px solid #7fff00;
   // border-radius: 2px;
+}
+.dropdown-item a:hover {
+  background-color: #eee !important;
+  color: black;
 }
 
 .navigation .navbar *{
@@ -42,6 +50,13 @@
 .dropdown-item {
   color: black !important;
 }
+
+.mracces {
+  margin-left: auto !important;
+
+}
+
+
 .carousel-item {
   object-fit: cover;
   height: 400px;

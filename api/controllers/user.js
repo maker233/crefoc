@@ -222,7 +222,7 @@ function getCounters (req, res) {
     return res.status(200).send(value) // value sera el count que habra hecho el método
   })
 }
-
+/*
 async function getCountFollow (user_id) { // await va a esperar a que devuelva la llamada a la base de datos
   var following = await Follow.count({'user': user_id}).exec((err, count) => {
     if (err) return handleError(err)
@@ -230,7 +230,7 @@ async function getCountFollow (user_id) { // await va a esperar a que devuelva l
     // Al tener que sacar varios datos
   })
 
-  var followed = await Follow.count({'followed':user_id}).exec((err, count) => {
+  var followed = await Follow.count({'followed': user_id}).exec((err, count) => {
     if (err) return handleError(err)
     return count
   })
@@ -244,6 +244,33 @@ async function getCountFollow (user_id) { // await va a esperar a que devuelva l
     following: following,
     followed: followed,
     publications: publications
+  }
+}
+*/
+// -------------------- S O L U C I O N ---------------------------------------
+
+async function getCountFollow (user_id) {
+  try {
+    var following = await Follow.count({'user': user_id}).exec()
+    .then(count => {
+      return count
+    })
+    .catch((err) => {
+      return handleError(err)
+    })
+    var followed = await Follow.count({'followed': user_id}).exec()
+    .then(count => {
+      return count
+    })
+    .catch((err) => {
+      return handleError(err)
+    })
+    return {
+      following: following,
+      followed: followed
+    }
+  } catch (e) {
+    console.log(e)
   }
 }
 

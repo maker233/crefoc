@@ -41,55 +41,73 @@ export class LoginComponent implements OnInit{
 
     // LOGUEAR AL USUARIO Y CONSEGUIR SUS DATOS
     this._userService.signup(this.user).subscribe(
-    response => {
-      this.identity = response.user;
+      response => {
+        this.identity = response.user;
 
-      if(!this.identity || !this.identity._id){
-        this.status = 'error';
-      }else{
-        this.status = 'success';
+        if(!this.identity || !this.identity._id){
+          this.status = 'error';
+        }else{
+          // this.status = 'success';
 
-        // PERSISTIR DATOS DEL USUARIO - Usamos el LocalStorage
-        localStorage.setItem('identity',JSON.stringify(this.identity));
+          // PERSISTIR DATOS DEL USUARIO - Usamos el LocalStorage
+          localStorage.setItem('identity',JSON.stringify(this.identity));
 
-        // CONSEGUIR TOKEN
-        this.token();
+          // CONSEGUIR TOKEN
+          this.getToken();
+
+        }
+      },
+      error => {
+        var errorMessage = <any>error;
+        // console.log(errorMessage);
+
+        if(errorMessage != null){
+          this.status = 'error';
+        }
       }
-    },
-    error => {
-      var errorMessage = <any>error;
-      // console.log(errorMessage);
-
-      if(errorMessage != null){
-        this.status = 'error';
-      }
-    }
-  );
+    );
   }
 
-  gettokken(){
+  getToken(){
     this._userService.signup(this.user, 'true').subscribe(
-    response => {
-      this.token = response.token;
+      response => {
+        this.token = response.token;
 
-      if(this.token.length <= 0){
-        this.status = 'error';
-      }else{
+        if(this.token.length <= 0){
+          this.status = 'error';
+        }else{
+          // this.status = 'success';
+          // PERSISTIR TOKEN DEL USUARIO
+          localStorage.setItem('token', this.token);
+
+          // CONSEGUIR LOS CONTADORES O ESTADISTICAS DEL USUARIO
+          this.getCounters();
+
+        }
+      },
+      error => {
+        var errorMessage = <any>error;
+        // console.log(errorMessage);
+
+        if(errorMessage != null){
+          this.status = 'error';
+        }
+      }
+    );
+  }
+
+  getCounters(){
+    this._userService.getCounters().subscribe(
+      response => {
+        //console.log(response);
+        localStorage.setItem('stats', JSON.stringify(response));
         this.status = 'success';
-
-        // PERSISTIR TOKEN DEL USUARIO
-        localStorage.setItem('token', this.token);
-
-        // CONSEGUIR LOS CONTADORES O ESTADISTICAS DEL USUARIO
+        this._router.navigate(['/']); // redireccion al home tras login
+        //if(response.following.length <= 0)
+      },
+      error => {
+        console.log(<any>error);
       }
-    },
-    error => {
-      var errorMessage = <any>error;
-      // console.log(errorMessage);
-
-      if(errorMessage != null){
-        this.status = 'error';
-      }
-    },
+    )
   }
 }
