@@ -67,3 +67,14 @@ a.dropdown-item.active {
   position: relative;
   bottom: 330px;
 }
+.logo {
+  height: 55px;
+  width: auto;
+}
+.navigation .menutop{
+  // margin-top: -10px;
+  max-height: 70px;
+}
+.navbar {
+  padding: .2rem 1rem;
+}

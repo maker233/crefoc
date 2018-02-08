@@ -89,4 +89,12 @@ export class UserService{
 
   }
 
+  updateUser (user: User): Observable<any>{
+    let params = JSON.stringify(user);
+    let headers = new HttpHeaders().set('Content-Type', 'application/json') // forma en la que se envian los datos
+                                    .set('Authorization',this.getToken()); // Decodifica en el backend
+    return this._http.put(this.url+'update-user/'+user._id, params, {headers: headers});
+
+  }
+
 }
