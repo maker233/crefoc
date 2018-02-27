@@ -14,7 +14,7 @@ export class UserService{
   public token;
   public stats;
 
-  constructor(public _http: HttpClient) { //definimos la pripiedad hhtp para hacer peticiones
+  constructor(public _http: HttpClient) { //definimos la propiedad http para hacer peticiones
     this.url = GLOBAL.url;
   }
 
