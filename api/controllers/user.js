@@ -292,9 +292,9 @@ function updateUser (req, res) {
   ]}).exec((err, users) => {
     var user_isset = false
     users.forEach((user) => {
-      if (user && users._id != userId) user_isset = true
+      if (user && users._id !== userId) user_isset = true
     })
-    if (user_isset) return res.status(500).send({message: 'Los datos ya están en uso'})
+    if (user_isset) return res.status(404).send({message: 'Los datos ya están en uso'})
 
     User.findByIdAndUpdate(userId, update, {new: true}, (err, userUpdated) => {
       if (err) return res.status(500).send({message: 'Error en la petición'})

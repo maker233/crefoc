@@ -17,26 +17,26 @@ export class UploadService{
     name: string
   ){
     return new Promise(function(resolve, reject){
-      var formData: any = new formData()
-      var xhr = new XMLHttpRequest()
+      var formData: any = new FormData()
+      var xhr = new XMLHttpRequest(); // objeto que permite hacer peticiones AJAX en JS puro
 
-      for(var i = 0; i< files.length; i++){
-        formData.append(name, files[i], files[i].name)
+      for(var i = 0; i < files.length; i++){
+        formData.append(name, files[i], files[i].name);
       }
 
-      xhr.onreadystatechange = function(){
+      xhr.onreadystatechange = function(){ // peticion AJAX
         if(xhr.readyState == 4){
           if(xhr.status == 200){
-            resolve(JSON.parse(xhr.response))
+            resolve(JSON.parse(xhr.response));
           }else{
-            reject(xhr.response)
+            reject(xhr.response);
           }
         }
       }
 
-      xhr.open('POST', url, true)
-      xhr.setRequestHeader('Authorization', token)
-      xhr.send(formData)
-    })
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Authorization', token);
+      xhr.send(formData);
+    });
   }
 }
