@@ -78,3 +78,24 @@ a.dropdown-item.active {
 .navbar {
   padding: .2rem 1rem;
 }
+
+.item-user .image-user{
+  border-radius: 100px;
+}
+
+.item-user .image-user img{
+  width: 120px;
+}
+
+.item-user .user-name{
+  margin-top: 10px;
+}
+
+.item-user .user-name .nickname{
+  color:#55;
+  font-weight: bold;
+}
+
+.avatar-default{
+  width: 100% !important;
+}
