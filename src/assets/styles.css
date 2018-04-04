@@ -21,7 +21,7 @@
 
 .navigation .navbar {
   border-radius: 0px !important;
-  // background: black !important;
+  /* background: black !important; */
   border: none;
 }
 
@@ -54,6 +54,14 @@ a.dropdown-item.active {
 .mracces {
   margin-left: auto !important;
 
+}
+
+/* HOME */
+.containercat {
+  padding: 100px 0px 100px 0px;
+  background-image: url("..\assets\resources\concierto.jpg");
+  background-color: black;
+  background-size: cover;
 }
 
 

@@ -13,6 +13,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
+import { ExplorerComponent } from './components/explorer/explorer.component';
 
 @NgModule({
   declarations: [ // Puedo meter Componentes, Directivas y Pipes para declararlas de manera global
@@ -21,7 +22,8 @@ import { UsersComponent } from './components/users/users.component';
     RegisterComponent,
     HomeComponent,
     UserEditComponent,
-    UsersComponent
+    UsersComponent,
+    ExplorerComponent,
   ],
   imports: [
     BrowserModule,

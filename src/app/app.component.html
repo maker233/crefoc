@@ -23,8 +23,17 @@
       </li>
 
       <li class="nav-item px-1">
-        <a class="nav-link" href="#">Explorar</a>
+        <a class="nav-link" [routerLink]="['/explorer']" [routerLinkActive]="['active']">Explorar</a>
       </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" href="#">Rankings</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" href="http://188.166.65.109/">STORE!</a>
+      </li>
+
     </ul>
 
     <!-- Menu Left /Loged -->
@@ -35,12 +44,17 @@
       </li>
 
       <li class="nav-item px-1">
-        <a class="nav-link" href="#">Gente</a>
+        <a class="nav-link" [routerLink]="['/gente']" [routerLinkActive]="['active']">Gente</a>
       </li>
 
       <li class="nav-item px-1">
-        <a class="nav-link" href="#">Explorar</a>
+        <a class="nav-link" [routerLink]="['/explorer']" [routerLinkActive]="['active']">Explorar</a>
       </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" href="http://188.166.65.109/">STORE!</a>
+      </li>
+
     </ul>
 
     <!-- Menu Right /Loged -->
@@ -67,47 +81,59 @@
       </form>
 
       <span class="navbar-text mx-3" *ngIf="identity">
-      ¡Hola de nuevo {{identity.name}}!
+      ¡Hola {{identity.name}}!
       </span>
 
-        <ul class="navbar-nav px-1 pr-5 dropdown">
-          <li class="avatar">
+      <ul class="navbar-nav px-1 pr-5 dropdown">
+        <li class="avatar">
             <!-- Cargar imagen usuario -->
-          </li>
+        </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" *ngIf="identity" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Mensajes
-            </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Enviados</a>
-            <a class="dropdown-item" href="#">Recibidos</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">No leídos</a>
-          </div>
-          </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" *ngIf="identity" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mis Cursos
+          </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/shop">Todos los cursos</a>
+          <a class="dropdown-item" href="/shop/wishlist">Lista de Deseos</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/instructor">Conviértete en Instructor</a>
+        </div>
+        </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link mr-2 dropdown-toggle" *ngIf="identity" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Mi Perfil
-            </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="identity">
-            <a class="dropdown-item" [routerLink]="['/mis-datos']" [routerLinkActive]="['active']">
-              <span class="glyphicon glyphicon-home"></span>
-              Mis datos
-            </a>
-            <a class="dropdown-item" [routerLink]="['/registro']" [routerLinkActive]="['active']">
-              <span class="glyphicon glyphicon-home"></span>
-              Publicaciones
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="logout()" [routerLink]="['/logout']">
-              <span class="glyphicon glyphicon-home"></span>
-              Salir
-            </a>
-          </div>
-          </li>
-        </ul>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" *ngIf="identity" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mensajes
+          </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Enviados</a>
+          <a class="dropdown-item" href="#">Recibidos</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">No leídos</a>
+        </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link mr-2 dropdown-toggle" *ngIf="identity" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mi Perfil
+          </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" *ngIf="identity">
+          <a class="dropdown-item" [routerLink]="['/mis-datos']" [routerLinkActive]="['active']">
+            <span class="glyphicon glyphicon-home"></span>
+            Mis datos
+          </a>
+          <a class="dropdown-item" [routerLink]="['/registro']" [routerLinkActive]="['active']">
+            <span class="glyphicon glyphicon-home"></span>
+            Publicaciones
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="logout()" [routerLink]="['/logout']">
+            <span class="glyphicon glyphicon-home"></span>
+            Salir
+          </a>
+        </div>
+        </li>
+      </ul>
   </nav>
 </div>
 

@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { UsersComponent } from './components/users/users.component';
+import { ExplorerComponent } from './components/explorer/explorer.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -16,7 +17,9 @@ const appRoutes: Routes = [
   {path: 'mis-datos', component: UserEditComponent},
   {path: 'gente', component: UsersComponent},
   {path: 'gente/:page', component: UsersComponent},
-  {path: '**', component: HomeComponent} // Ruta 404
+  {path: '**', component: HomeComponent}, // Ruta 404
+
+  {path: 'explorer', component: ExplorerComponent},
 ];
 
 export const appRoutingProviders: any[] = [];
