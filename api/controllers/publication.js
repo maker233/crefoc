@@ -119,7 +119,6 @@ function uploadImage (req, res) {
 
       // Comprobamos si la publicacion es del usuarios
       Publication.finOne({'user': req.user.sub, '_id': publicationId}).exec((err, publication) => {
-
         if (publication) {
           // Actualizar documento de LA PUBLICACIÓN
           Publication.findByIdAndUpdate(publicationId, {file: file_name}, {new: true}, (err, publicationUpdated) => {
@@ -136,7 +135,7 @@ function uploadImage (req, res) {
       })
     } else {
       return removeFilesOfUploads(res, file_path, 'Extensión no válida')
-        // ponemos return para que la ejecución no siga por encima de removeFilesOfUploads
+      // ponemos return para que la ejecución no siga por encima de removeFilesOfUploads
     }
   } else {
     return res.status(200).send({message: 'No se ha subido ninguna imagen'})
@@ -153,6 +152,21 @@ function removeFilesOfUploads (res, file_path, message) {
 
 // RECUPERAR IMAGEN AVATAR ----------------------------------------------------
 function getImageFile (req, res) {
+  var image_file = req.params.imageFile
+  var path_file = './uploads/publications/' + image_file
+
+  fs.exists(path_file, (exists) => {
+    if (exists) {
+      res.sendFile(path.resolve(path_file))
+    } else {
+      res.status(200).send({message: 'No existe la imagen...'})
+    }
+  })
+}
+
+// MÉTODO VER PUBLICACIONES DE UNA CATEGORÍA --------------------- TEST NO VICTOR ---------------------------
+
+function getPublicationCategory (req, res) {
   var image_file = req.params.imageFile
   var path_file = './uploads/publications/' + image_file
 

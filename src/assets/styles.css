@@ -13,25 +13,54 @@
 
 /* CABECERA */
 
+/* Menus*/
 .navigation {
-  margin: 0px;
-  padding: 0px !important;
-  border-radius: 0px !important;
 }
 
-.navigation .navbar {
+.navbar {
   border-radius: 0px !important;
   /* background: black !important; */
   border: none;
+  padding: .2rem 1rem;
+}
+
+.logo {
+  height: 55px;
+  width: auto;
+}
+.navigation .menutop{
+  margin: -15px -5px -15px -5px;
+  max-height: 70px;
+  background-color: white;
+}
+
+.menutop a{
+  font-size: 15px !important;
+  color: black !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: white !important;
+}
+
+.menusec {
+  color: white !important;
+  background-color: #00264b;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 a.dropdown-item.active {
   background-color: #eee;
+  text-transform: capitalize !important;
+}
+
+.nav-link {
+  color: white;
 }
 
 .nav-link:hover {
-  color: #7fff00 !important;
-  // border: 1px solid #7fff00;
+  color: red !important;
+  // border: 1px solid red;
   // border-radius: 2px;
 }
 .dropdown-item a:hover {
@@ -40,11 +69,18 @@ a.dropdown-item.active {
 }
 
 .navigation .navbar *{
-  color: white;
+  font-size: 15px;
 }
 
 .navigation .navbar .form-inline {
   margin-left: auto !important;
+}
+
+.menulogri {
+  font-size: 16px !important;
+  text-transform: capitalize !important;
+  font-weight: normal !important;
+
 }
 
 .dropdown-item {
@@ -56,14 +92,32 @@ a.dropdown-item.active {
 
 }
 
-/* HOME */
-.containercat {
-  padding: 100px 0px 100px 0px;
-  background-image: url("..\assets\resources\concierto.jpg");
-  background-color: black;
-  background-size: cover;
+.modal {
+  color: black;
+  text-transform: none;
+  font-weight: normal;
 }
 
+.tour {
+  float: right;
+  text-align: right;
+  width: auto;
+}
+
+/* HOME */
+.concat {
+  /*background-image: url("..\assets\resources\concierto.jpg");*/
+  background-color: #00264B;
+  background-size: cover;
+}
+.rowcards {
+  position: relative;
+  width: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
 
 .carousel-item {
   object-fit: cover;
@@ -74,17 +128,6 @@ a.dropdown-item.active {
 .cit { //carrousel item con modificación
   position: relative;
   bottom: 330px;
-}
-.logo {
-  height: 55px;
-  width: auto;
-}
-.navigation .menutop{
-  // margin-top: -10px;
-  max-height: 70px;
-}
-.navbar {
-  padding: .2rem 1rem;
 }
 
 .item-user .image-user{
@@ -106,4 +149,40 @@ a.dropdown-item.active {
 
 .avatar-default{
   width: 100% !important;
+}
+
+/*HOME*/
+.row{
+  padding: 30px 0px 30px 0px;
+}
+
+.table{
+  padding: 30px 0px 30px 0px;
+}
+
+.imgcar{
+  width: auto;
+  max-width: 300px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+h2{
+  text-align: center;
+  position: absolute;
+  font-size: 2.5rem;
+  display: inline-block;
+}
+
+p {
+  font-size: 1em;
+  font: Montserrat;
+}
+.footer{
+  background-color: #00264b;
+  padding: 30px 0 30px 0;
+  color: white;
+
 }

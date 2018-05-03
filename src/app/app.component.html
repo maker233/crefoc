@@ -1,17 +1,17 @@
 <div class="navigation">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark menutop">
+  <nav class="navbar navbar-expand-lg py-5 menutop">
     <a class="navbar-brand h1 pt-3" [routerLink]="['/home']">
     <img src="..\assets\resources\logo.png" alt="Creative Focus" class="align-top logo"></a>
 
     <!-- Menu Left Loged -->
 
     <ul class="navbar-nav px-4 pt-1" *ngIf="identity">
-      <li class="nav-item px-1 active" [routerLink]="['/home']" [routerLinkActive]="['active']">
-        <a class="nav-link">Inicio <span class="sr-only"></span></a>
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Inicio</a>
       </li>
 
       <li class="nav-item px-1">
-        <a class="nav-link" href="#">Timeline</a>
+        <a class="nav-link" [routerLink]="['/timeline']" [routerLinkActive]="['active']">Timeline</a>
       </li>
 
       <li class="nav-item px-1">
@@ -19,7 +19,7 @@
       </li>
 
       <li class="nav-item px-1">
-        <a class="nav-link" href="#">Dashboard</a>
+        <a class="nav-link" [routerLink]="['/dashboard']" [routerLinkActive]="['active']">Dashboard</a>
       </li>
 
       <li class="nav-item px-1">
@@ -36,11 +36,11 @@
 
     </ul>
 
-    <!-- Menu Left /Loged -->
+    <!-- Menu Left NoLoged -->
 
     <ul class="navbar-nav px-4 pt-1" *ngIf="!identity">
       <li class="nav-item px-1 active">
-        <a class="nav-link" href="#">Inicio <span class="sr-only"></span></a>
+        <a class="nav-link" [routerLink]="['/']" [routerLinkActive]="['active']">Inicio</a>
       </li>
 
       <li class="nav-item px-1">
@@ -57,7 +57,7 @@
 
     </ul>
 
-    <!-- Menu Right /Loged -->
+    <!-- Menu Right NoLoged -->
 
     <ul class="navbar-nav px-1 mracces" *ngIf="!identity">
       <li class="nav-item px-1 ">
@@ -80,7 +80,7 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Buscar</button>
       </form>
 
-      <span class="navbar-text mx-3" *ngIf="identity">
+      <span class="navbar-text mx-3 menulogri" *ngIf="identity">
       ¡Hola {{identity.name}}!
       </span>
 
@@ -89,15 +89,15 @@
             <!-- Cargar imagen usuario -->
         </li>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" *ngIf="identity" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown menulogri">
+          <a class="nav-link dropdown-toggle" *ngIf="identity" href="http://188.166.65.109/my-account/downloads/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Mis Cursos
           </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/shop">Todos los cursos</a>
-          <a class="dropdown-item" href="/shop/wishlist">Lista de Deseos</a>
+          <a class="dropdown-item" href="http://188.166.65.109/shop/">Todos los cursos</a>
+          <a class="dropdown-item" href="http://188.166.65.109/wishlist/">Lista de Deseos</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/instructor">Conviértete en Instructor</a>
+          <a class="dropdown-item" href="http://188.166.65.109/contact/">Conviértete en Instructor</a>
         </div>
         </li>
 
@@ -135,6 +135,97 @@
         </li>
       </ul>
   </nav>
+
+<!-- SECONDARY MENU -->
+
+  <nav class="navbar navbar-expand-lg navbar-dark menusec">
+    <!-- Menu Left Loged -->
+
+    <ul class="navbar-nav px-4 pt-1" *ngIf="identity">
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">AUDIO</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/timeline']" [routerLinkActive]="['active']">VIDEO</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/gente']" [routerLinkActive]="['active']">TEXTO</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/dashboard']" [routerLinkActive]="['active']">FOTOGRAFÍA</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/explorer']" [routerLinkActive]="['active']">DISEÑO</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" [routerLink]="['/rankings']" [routerLinkActive]="['active']">OTROS</a>
+      </li>
+
+      <li class="nav-item px-1">
+        <a class="nav-link" href="http://188.166.65.109/">STORE!</a>
+      </li>
+
+    </ul>
+
+    <!-- Menu Left NoLoged -->
+
+    <ul class="navbar-nav pt-1 tour" *ngIf="!identity" style="">
+    </ul>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="">
+        Iniciar Tour CreativeFocus
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">¡Bienvenid@ a Creative Focus!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              Nos alegramos de tenerte por aquí. ¡Ahora vamos a dar un paseo por la plataforma para enseñarte cómo puedes dar a conocer tus proyectos y descubrir a nuevos artistas!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Puedo seguir por mi cuenta, adiós</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-dismiss="modal" data-target="#Modal2">¡Enséñame más!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Entra o Regístrate</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ¡Bien! El primer paso es enseñarte todas las opciones que hay, pero antes tienes que estar dentro de la plataforma, ¿te apuntas?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#Modal2" [routerLink]="['/registro']">¡Vamos!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </nav>
 </div>
+
+
 
 <router-outlet></router-outlet>

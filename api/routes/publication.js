@@ -13,6 +13,8 @@ api.get('/publications/:page?', md_auth.ensureAuth, PublicationController.getPub
 api.get('/publication/:id?', md_auth.ensureAuth, PublicationController.getPublication)// Ver publicación
 api.get('/get-image-pub/:imageFile', PublicationController.getImageFile) // Devolver imagen publicación
 
+api.get('/explorer/:category', PublicationController.getPublicationCategory)
+
 api.post('/publication', md_auth.ensureAuth, PublicationController.savePublication) // Crear publicación
 api.post('/upload-image-pub/:id', [md_auth.ensureAuth, md_upload], PublicationController.uploadImage)
 
