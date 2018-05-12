@@ -12,7 +12,7 @@
 
   <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12">
     <p>
-      <label for="">Correo Electrónico</label>
+      <label for="">Correo Electrónico.</label>
       <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
       <span *ngIf="!email.valid && email.touched">
         Introduce un email válido.</span>
